@@ -1,114 +1,47 @@
-public abstract class Controller implements Controllable
+public abstract class Controller
 {
-    private Reactor reactor;
     private double setPoint;
-    private double[] controllerKs;
-    private double integralError;
-    private double[] errors= new double[2];
-    private double[] time=new double [2];
+    private double kC, tauI, tauD;
 
+    private double controlledVariableLast;
 
-    //constructor
+    private Controllable controllable;
 
-    public Controller(Reactor reactor, double[] controllerKs)
+    private double integralErrorNow;
+    private double integralErrorLast;
+
+    public Controller(double setPoint, double kC, double tauI, double tauD,  Controllable controllable) {
+        this.setPoint = setPoint;
+        this.kC = kC;
+        this.tauI = tauI;
+        this.tauD = tauD;
+        this.controlledVariableLast = 0;
+        this.controllable = controllable.clone();
+        this.integralErrorLast = 0;
+    }
+
+    public double calculateP()
     {
-        //add checks
-
-        this.reactor=reactor.clone();
-        this.setPoint=setPoint;
-        this.controllerKs=controllerKs.clone();
-        this.integralError=0;
-        this.errors=errors.clone();
-        this.time=time.clone();
+        return (kC)*(setPoint-this.controllable.readControlledVariable());
     }
-
-    //copy constructor
-    public Controller(Controller source)
+    public double calculateI(double timeStep)
     {
-        if(source==null) System.exit(0);
-
-        this.reactor=source.reactor.clone();
-        this.setPoint=source.setPoint;
-        this.controllerKs=source.controllerKs.clone();
-        this.integralError=source.integralError;
-        this.errors=source.errors.clone();
-        this.time=source.time.clone();
+        this.integralErrorLast =  integralErrorLast+((kC/tauI)*((setPoint-this.controllable.readControlledVariable()))*(timeStep));
+        return this.integralErrorLast;
     }
-    //clone method
-    public abstract Controller clone();
-
-
-    //accessor and mutator
-
-    public boolean setSetPoint(double setPoint)
+    public double calculateD(double timeStep)
     {
-        if (this.setPoint>=0) return false;
-
-        this.setPoint=setPoint;
-        return true;
+        this.controlledVariableLast =  -kC*(tauD)*((this.controllable.readControlledVariable()-this.controlledVariableLast)/(timeStep));
+        return this.controlledVariableLast;
     }
 
-    public double getSetPoint() {
-        return this.setPoint;
-    }
-
-    public Reactor getReactor() {
-        return this.reactor;
-    }
-
-    public double[] getControllerKs() {
-        return this.controllerKs;
-    }
-
-    public double getIntegralError() {
-        return this.integralError;
-    }
-
-
-    public abstract void calculateControl();
-    //this will be the method that will be
-    // different for each controller
-    // (where we put the PID stuff in)
-
-    //additional methods
-
-    public abstract double setManipulatedVariable(double manipulatedVariable);
-    public abstract double readControlledVariable(double controlledVariable);
-
-    public double getTimeStep()
+    public double updateManipulatedVariable(double timeStep)
     {
-        double currentTime=System.currentTimeMillis();
-        double timeStep=(currentTime-this.time[0])/1000.0;
-        this.time[1]=this.time[0];
-        this.time[0]=currentTime;
-        return timeStep;
+       return this.controllable.setManipulatedVariable(calculateManipulatedVariable(timeStep));
     }
 
-    //public abstract double getProcessVariables();
-    //public abstract double setControlVariables();
+    public abstract double calculateManipulatedVariable(double timeStep);
 
-  /* public double calculateError (Controllable control)
-   {
-       double currentValue=control.getCurrentValue();
-       double error=setPoint-currentValue;
 
-       double pTerm=controllerKs[0]*error;
-       integralError+=error;
-       double iTerm=controllerKs[1]*integralError;
-       double dTerm=controllerKs[2]*(error-previousError);
-
-       control.calculateOut(double setPoint);
-       double calculateOut=pTerm+iTerm+dTerm;
-
-       previousError=error;
-   }
-   */
-
-    public void updateTerms(double error)
-    {
-        integralError+=error*(time[0]-time[1])/1000.0;
-        errors[1]=errors[0];
-        errors[0]=error;
-    }
 
 }//end of Controller Parent Class

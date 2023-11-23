@@ -1,4 +1,5 @@
-public class Tuning_Parameters{
+public class Tuning_Parameters
+{
     private double K_P
     private double Taw
     private double Dead_time
@@ -24,6 +25,7 @@ public class Tuning_Parameters{
         return Dead_time*((32+(6*(Dead_time/Taw)))/(13+(8*(Dead_time/Taw))));}
     public double calculate TD_PID(double Taw, double Dead_time){
         return Dead_time*(4/(11+(2*(Dead_time/Taw))));}
+}
 
     
 

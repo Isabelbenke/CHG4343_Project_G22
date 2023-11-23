@@ -1,5 +1,6 @@
 public class RK45
 {
+    //TODO: add adaptive step size
     public static double step(double x, double y, double h, Function f, int n)
     {
         double[] k = {0.,0.,0.,0.,0.,0.};

@@ -10,7 +10,7 @@ public class TestCase2
     //contructor
     public TestCase2(double[] processVariables, double stepChange, double simulationEndTime) {
         this.CSTR.clone() = CSTR; // Initialize CSTR with volume and initial concentration
-        this.controller = new PIController(CSTR, controllerKs); // Initialize PIController with dummy parameters
+        this.controller = new PIController(); // Initialize PIController with dummy parameters
         this.stepChange = stepChange; // Set the step change for feed stream composition
         this.simulationEnd = simulationEnd; // Set the end time for the simulation
         tuneController(); // Tune the controller parameters based on the reactor behavior and step change
@@ -19,13 +19,16 @@ public class TestCase2
     //copy constructor
     //clone method
 
+    /** Method to tune the controller
+     *
+     */
     private void tuneController() {
         // Cohen-Coon tuning (Pseudocode)
         // This method should set the controller parameters based on the tuning algorithm
         double tau = ...; // Calculate the time constant based on the molar balance
         double theta = 0.05 * tau; // Dead time
-        double kp = ...; // Calculate using Cohen-Coon method
-        double ki = ...; // Calculate using Cohen-Coon method
+        double kp = 0; // Calculate using Cohen-Coon method
+        double ki = 0; // Calculate using Cohen-Coon method
 
         // Set the tuned parameters to the controller
         controller.setControllerKs[{kp,ki,0}];

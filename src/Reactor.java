@@ -17,4 +17,8 @@ public abstract class Reactor
 
         return true;
     }
+
+    public abstract double calculateExitConcentration();
+
+    public abstract void setManipulatedVariables(double manipulatedVariable);
 }

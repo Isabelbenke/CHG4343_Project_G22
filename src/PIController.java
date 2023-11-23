@@ -1,65 +1,41 @@
 //Child class PIController of Parent Class Controller
-public class PIController extends Controller{
+public class PIController extends Controller
+{
 
     //Constructor 
-    public PIController(Reactor reactor, double[] controllerKs)
-    {
-        super(reactor, controllerKs);
-        //add to this
+
+
+    public PIController(double setPoint, double kC, double tauI, double tauD, Controllable controllable) {
+        super(setPoint, kC, tauI, tauD, controllable);
     }
-    //Copy constructor 
-    public PIController(PIController source){
-        super(source);}
+
+    //Copy constructor
+    public PIController(PIController source)
+    {
+        super(source);
+    }
     
     public Controller clone()
     {
-        return new PIController(this.getReactor(), this.getControllerKs());
-        //I think this should be return new PIController(this); - Deep copying
+        return new PIController(this);
+
     }
 
     //Equals method
-    public boolean equals(Object comparator);
-    if (comparator == null) return false;
-//Will have to look more into this
-
-    //this is the method for the controller, it gets the type of control (see end of outline for project
-    //updates the flowrate=control varible = manipulated
-    public void calculateControl()
+    public boolean equals(Object comparator)
     {
-        double error=this.getSetPoint()-this.getReactor().calculateExitConcentration(); //this is difference of setpoint and concentration exiting
-        double timeStep=this.getTimeStep();
-
-        this.updateTerms(error);
-
-        double[] controllerKs=this.getControllerKs();
-        double proportionalTerm=controllerKs[0]*error;
-        double integralTerm=controllerKs[1]*this.getIntegralError();
-
-        double manipulatedVariable=error+proportionalTerm+integralTerm;
-
-        this.getReactor().setManipulatedVariables(manipulatedVariable);
-    }
-
-    //below need to figure out how to implement
-    @Override
-    public double setManipulatedVariable(double manipulatedVariable)
-    {
-        this.getReactor().setManipulatedVariable(manipulatedVariable);
-        return controlVariable;
-    }
-
-public double readControlledVariable (double controlledVariable)
-    {
-        return this.getReactor().calculateExitConcentration();
+        if(!super.equals(comparator)) return false;
+        return true;
     }
 
     @Override
-    public double getProcessVariable()
+    public double calculateManipulatedVariable(double timeStep)
     {
-
-        return this.getReactor().getProcessVariable();
-
+        return ((setPoint-this.controllable.readControlledVariable())+super.calculateP() + super.calculateI(timeStep));
     }
+
+
+
 }//end of PI controller class
 
 
