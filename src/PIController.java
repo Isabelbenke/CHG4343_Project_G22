@@ -1,16 +1,26 @@
-public class PIController extends Controller
-{
+//Child class PIController of Parent Class Controller
+public class PIController extends Controller{
 
+    //Constructor 
     public PIController(Reactor reactor, double[] controllerKs)
     {
         super(reactor, controllerKs);
         //add to this
     }
+    //Copy constructor 
+    public PIController(PIController source){
+        super(source);}
+    
     public Controller clone()
     {
         return new PIController(this.getReactor(), this.getControllerKs());
+        //I think this should be return new PIController(this); - Deep copying
     }
 
+    //Equals method
+    public boolean equals(Object comparator);
+    if (comparator == null) return false;
+//Will have to look more into this
 
     //this is the method for the controller, it gets the type of control (see end of outline for project
     //updates the flowrate=control varible = manipulated
