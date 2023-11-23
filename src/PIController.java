@@ -35,17 +35,22 @@ public class PIController extends Controller{
         double proportionalTerm=controllerKs[0]*error;
         double integralTerm=controllerKs[1]*this.getIntegralError();
 
-        double controlVariable=proportionalTerm+integralTerm;
+        double manipulatedVariable=error+proportionalTerm+integralTerm;
 
-        this.getReactor().setControlVariables(controlVariable);
+        this.getReactor().setManipulatedVariables(manipulatedVariable);
     }
 
     //below need to figure out how to implement
     @Override
-    public double setControlVariable(double controlVariable)
+    public double setManipulatedVariable(double manipulatedVariable)
     {
-        this.getReactor().setControlVariable(controlVariable);
+        this.getReactor().setManipulatedVariable(manipulatedVariable);
         return controlVariable;
+    }
+
+public double readControlledVariable (double controlledVariable)
+    {
+        return this.getReactor().getConcentration();
     }
 
     @Override
