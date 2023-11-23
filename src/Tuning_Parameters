@@ -1,0 +1,30 @@
+public class Tuning_Parameters{
+    private double K_P
+    private double Taw
+    private double Dead_time
+
+    //Tuning parameter just for P-mode
+    public double calculateKC_P(double K_P,double Taw, double Dead_time){
+        return (1/K_P)*(1/3 + (Taw/Dead_time));}
+
+    //Tuning parameter just for PI-mode
+    public double calculateKC_PI(double K_P,double Taw, double Dead_time){
+        return (1/K_P)*(1/3 + ((Taw/Dead_time)*0.9);}
+    public double calculateTI_PI(double Taw, double Dead_time){
+        return Dead_time*((30+(3*(Dead_time/Taw)))/(9+(20*(Dead_time/Taw))));}
+
+    //Tuning parameter for PD and Kc for PD and PID modes
+    public double calculateKC_PDorPID(double K_P,double Taw, double Dead_time){
+        return (1/K_P)*(1/6 + ((5/4)*(Taw/Dead_time)));}
+    public double calculateTD_PD(double Taw, double Dead_time){
+        return Taw*((6-(2*(Dead_time/Taw)))/(22+(3*(Dead_time/Taw))));}
+
+    Tuning parameters for PID mode
+    public double calculate TI_PID(double Taw, double Dead_time){
+        return Dead_time*((32+(6*(Dead_time/Taw)))/(13+(8*(Dead_time/Taw))));}
+    public double calculate TD_PID(double Taw, double Dead_time){
+        return Dead_time*(4/(11+(2*(Dead_time/Taw))));}
+
+    
+
+    
