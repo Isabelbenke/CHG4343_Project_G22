@@ -26,7 +26,7 @@ public class PIController extends Controller{
     //updates the flowrate=control varible = manipulated
     public void calculateControl()
     {
-        double error=this.getSetPoint()-this.getReactor().getProcessVariables();
+        double error=this.getSetPoint()-this.getReactor().getConcentration(); //this is difference of setpoint and concentration exiting
         double timeStep=this.getTimeStep();
 
         this.updateTerms(error);
