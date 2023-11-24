@@ -14,12 +14,14 @@ public class PIController extends Controller
     {
         super(source);
     }
-    
+
+    //TODO correctly implement Controller clone method
     public Controller clone()
     {
-        return new PIController(this);
+        throw new UnsupportedOperationException();
 
     }
+
 
     //Equals method
     public boolean equals(Object comparator)
@@ -31,7 +33,7 @@ public class PIController extends Controller
     @Override
     public double calculateManipulatedVariable(double timeStep)
     {
-        return ((setPoint-this.controllable.readControlledVariable())+super.calculateP() + super.calculateI(timeStep));
+        return super.calculateP() + super.calculateI(timeStep);
     }
 
 

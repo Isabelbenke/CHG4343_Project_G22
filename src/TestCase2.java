@@ -1,5 +1,9 @@
+//TODO correctly implement TestCase2
 public class TestCase2
 {
+    //REWRITE
+
+    /*
     private Reactor CSTR;
     private PIController controller;
     private double stepChange;
@@ -22,6 +26,7 @@ public class TestCase2
     /** Method to tune the controller
      *
      */
+    /*
     private void tuneController() {
         // Cohen-Coon tuning (Pseudocode)
         // This method should set the controller parameters based on the tuning algorithm
@@ -52,5 +57,6 @@ public class TestCase2
         testCase.runSimulation();
         // Results can be printed or analyzed after simulation
     }
+    */
 
 }

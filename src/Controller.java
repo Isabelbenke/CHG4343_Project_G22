@@ -20,6 +20,19 @@ public abstract class Controller
         this.integralErrorLast = 0;
     }
 
+    public Controller(Controller source)
+    {
+        if(source==null) System.exit(0);
+        this.setPoint = source.setPoint;
+        this.kC = source.kC;
+        this.tauI = source.tauI;
+        this.tauD = source.tauD;
+        this.controlledVariableLast = source.controlledVariableLast;
+        this.controllable = source.controllable.clone();
+        this.integralErrorNow = source.integralErrorNow;
+        this.integralErrorLast = source.integralErrorLast;
+    }
+
     public double calculateP()
     {
         return (kC)*(setPoint-this.controllable.readControlledVariable());
